@@ -1,0 +1,10 @@
+set_io sclk        51
+set_io mosi        52
+set_io vsync       53
+set_io cs          54
+set_io vga_r       25
+set_io vga_g       24
+set_io vga_b       20
+set_io vga_hs      19
+set_io vga_vs      18
+set_io CLK25MHz    15

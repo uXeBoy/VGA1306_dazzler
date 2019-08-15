@@ -3,11 +3,10 @@
 `default_nettype none //disable implicit definitions by Verilog
 
 module top(
-
   input  CLK25MHz, //Oscillator input 25MHz
-  output vga_r,    //VGA Red 4 bit
-  output vga_g,    //VGA Green 4 bit
-  output vga_b,    //VGA Blue 4 bit
+  output vga_r,    //VGA Red
+  output vga_g,    //VGA Green
+  output vga_b,    //VGA Blue
   output vga_hs,   //H-sync pulse
   output vga_vs,   //V-sync pulse
 
@@ -15,7 +14,6 @@ module top(
   input vsync,
   input cs,
   input mosi,
-
 );
 
 parameter addr_width = 13; //64 x 64 = 4,096 RGBI pixels
@@ -39,7 +37,6 @@ begin
     din_counter <= 0;
     waddr_counter <= 0;
     quadrant_counter <= 1;
-    mem[4096] <= 0;
   end
   else if (vsync && !cs) begin
     din[din_counter] <= mosi;
@@ -99,8 +96,8 @@ assign vga_vs = (c_ver < v_pixels + v_fp || c_ver >= v_pixels + v_fp + v_pulse) 
 assign disp_en = (c_hor >= 32 && c_hor < 160 && c_ver >= 48 && c_ver < 560) ? 1 : 0;
 
 //c_col and c_row counters are updated only in the visible time-frame
-assign c_col = (disp_en) ? ((c_hor - 30) / 2) - 1 : 64; // 64, 64 = mem[4096]
-assign c_row = (disp_en) ? ((c_ver - 40) / 8) - 1 : 64;
+assign c_col = (disp_en) ? ((c_hor - 30) >> 1) - 1 : 64;
+assign c_row = (disp_en) ? ((c_ver - 40) >> 3) - 1 : 63;
 
 //VGA colour signals are enabled only in the visible time frame
 assign vga_r = (((dout[3] && dout[0]) || (dout[3] && !dout[0] && intensity)) && disp_en) ? 1 : 0;

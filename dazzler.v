@@ -3,10 +3,11 @@
 `default_nettype none //disable implicit definitions by Verilog
 
 module top(
+
   input  CLK25MHz, //Oscillator input 25MHz
-  output vga_r,    //VGA Red
-  output vga_g,    //VGA Green
-  output vga_b,    //VGA Blue
+  output vga_r,    //VGA Red 4 bit
+  output vga_g,    //VGA Green 4 bit
+  output vga_b,    //VGA Blue 4 bit
   output vga_hs,   //H-sync pulse
   output vga_vs,   //V-sync pulse
 
@@ -14,6 +15,7 @@ module top(
   input vsync,
   input cs,
   input mosi,
+
 );
 
 parameter addr_width = 13; //64 x 64 = 4,096 RGBI pixels
